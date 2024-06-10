@@ -1,16 +1,18 @@
 services:
-  reservations:
-    build:
-      context: .
-      dockerfile: ./apps/reservations/Dockerfile
-      target: development
-    command: pnpm run start:dev reservations
-    env_file:
-      - ./apps/reservations/.env
-    ports:
-      - '3000:3000'
-    volumes:
-      - .:/usr/src/app
+  # reservations:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/reservations/Dockerfile
+  #     target: development
+  #   command: pnpm run start:dev reservations
+  #   env_file:
+  #     - ./apps/reservations/.env
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - ./apps/reservations:/usr/src/app
+  #     - /usr/src/app/node_modules
+
   auth:
     build:
       context: .
@@ -23,16 +25,21 @@ services:
       - '3001:3001'
     volumes:
       - .:/usr/src/app
-  payments:
-    build:
-      context: .
-      dockerfile: ./apps/payments/Dockerfile
-      target: development
-    command: pnpm run start:dev payments
-    env_file:
-      - ./apps/payments/.env
-    volumes:
-      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/apps/auth/node_modules
+
+  # payments:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/payments/Dockerfile
+  #     target: development
+  #   command: pnpm run start:dev payments
+  #   env_file:
+  #     - ./apps/payments/.env
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+
   notifications:
     build:
       context: .
@@ -43,5 +50,8 @@ services:
       - ./apps/notifications/.env
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/apps/notifications/node_modules
+
   mongo:
     image: mongo
